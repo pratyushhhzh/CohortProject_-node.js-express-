@@ -1,8 +1,15 @@
 const express = require("express")
 const pool = require("./db")
 
+//cors
+const cors = require('cors');
+
+
 const app = express()
+///using cors
+app.use(cors());
 app.use(express.json())
+
 
 app.get("/" , (req , res) =>{
     res.send("Backedn is working with Nodemon!")
