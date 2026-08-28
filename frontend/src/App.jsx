@@ -3,6 +3,12 @@ import "./App.css"
 
 
 function App(){
+  //login page 
+  const [page, setPage] = useState("register");
+
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
   const [name, setName] = useState("");
   const [registrationNo, setRegistrationNo] = useState("");
   const [email, setEmail] = useState("");
@@ -41,6 +47,52 @@ if(response.ok){
 console.log(data);
 };
 
+  // Login Page Code
+  if (page === "login") {
+  return (
+    <>
+      <h1>Login</h1>
+
+      <form>
+        <div className="form-row">
+          <label>Email</label>
+
+          <input
+            type="email"
+            value={loginEmail}
+            onChange={(event) => setLoginEmail(event.target.value)}
+            required
+          />
+        </div>
+
+        <div className="form-row">
+          <label>Password</label>
+
+          <input
+            type="password"
+            value={loginPassword}
+            onChange={(event) => setLoginPassword(event.target.value)}
+            required
+          />
+        </div>
+
+        <button type="submit">
+          Login
+        </button>
+      </form>
+
+      <p>
+        Don't have an account?
+        <button
+          type="button"
+          onClick={() => setPage("register")}
+        >
+          Register
+        </button>
+      </p>
+    </>
+  );
+}
 
   return(
     <>
@@ -94,7 +146,15 @@ console.log(data);
         <br />
 
        {message && <p>{message}</p>}
+
         <button type="submit">Register</button>
+
+        <p>Already have an account ?
+          <button type="button" onClick={()=> setPage("login")}>
+            Login
+          </button>
+        </p>
+
       </form>
     </>
   )
