@@ -8,6 +8,7 @@ function App(){
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [loginMessage, setLoginMessage] = useState("");
 
   const [name, setName] = useState("");
   const [registrationNo, setRegistrationNo] = useState("");
@@ -17,6 +18,34 @@ function App(){
   //for alert message:
  const[message, setMessage] = useState("")
 
+ // Login
+const handleLogin = async (event) => {
+  event.preventDefault();
+
+  setLoginMessage("");
+
+  const response = await fetch("http://localhost:5000/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      email: loginEmail,
+      password: loginPassword
+    })
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    setPage("welcome");
+    return;
+  }
+
+  if (response.status === 401) {
+    setLoginMessage("Wrong Email ID / Password");
+  }
+};
 
  // handle submit 
   const handleSubmit = async (event) => {
@@ -41,19 +70,31 @@ if(response.status === 409){
   return;
 }
 if(response.ok){
-  setMessage("Registration successful")
+  setMessage("Registration successful"),
+  setPage("welcome")
 }
 //printing it out
 console.log(data);
 };
 
-  // Login Page Code
+  // WELCOME PAGE
+  if (page === "welcome") {
+  return (
+    <div className="welcome-page">
+      <h1>WELCOME</h1>
+      <br></br>
+      <p>Builder's Cohort</p>
+    </div>
+  );
+}
+
+  // Login Page Code (LOGIN FORM)
   if (page === "login") {
   return (
     <>
       <h1>Login</h1>
 
-      <form>
+      <form onSubmit={handleLogin}>
         <div className="form-row">
           <label>Email</label>
 
@@ -81,12 +122,13 @@ console.log(data);
         </button>
       </form>
 
+      {loginMessage && <p>{loginMessage}</p>}
+
       <p>
         Don't have an account?
         <button
           type="button"
-          onClick={() => setPage("register")}
-        >
+          onClick={() => setPage("register")}>
           Register
         </button>
       </p>
@@ -101,46 +143,51 @@ console.log(data);
     <h2> Create Account </h2>
     <form onSubmit={handleSubmit}>
         <div>
-          <div className="form-row"></div>
+          <div className="form-row">
           <label>Name</label>
           <input type="text" value={name}
           onChange={(event) => setName(event.target.value)} required />
+          </div>
         </div>
 
         <br />
 
         <div>
-          <div className="form-row"></div>
+          <div className="form-row">
           <label>Registration Number</label>
           <input type="text" value={registrationNo}
           onChange={(event) => setRegistrationNo(event.target.value)} required/>
+          </div>
         </div>
 
         <br />
 
         <div>
-          <div className="form-row"></div>
+          <div className="form-row">
           <label>Email</label>
           <input type="email" value={email}
           onChange={(event) => setEmail(event.target.value)} required/>
+          </div>
         </div>
 
         <br />
 
         <div>
-          <div className="form-row"></div>
+          <div className="form-row">
           <label>Password</label>
           <input type="password" minLength="6" value={password}
           onChange={(event) => setPassword(event.target.value)} required/>
+          </div>
         </div>
 
         <br />
 
         <div>
-          <div className="form-row"></div>
+          <div className="form-row">
           <label>Age</label>
           <input type="number" min="16" max="70" value={age}
           onChange={(event) => setAge(event.target.value)} required />
+          </div>
         </div>
 
         <br />

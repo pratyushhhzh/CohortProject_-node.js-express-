@@ -160,6 +160,37 @@ app.delete("/profile/:id", async (req, res) => {
   }
 })
 
+// LOGIN USER
+app.post("/login",async(req,res)=>{
+    try {
+    const { email, password } = req.body;
+
+    const result = await pool.query(
+      `SELECT * FROM users 
+       WHERE email = $1 AND password = $2`,
+      [email, password]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({
+        message: "Wrong Email ID / Password"
+      });
+    }
+
+    res.status(200).json({
+      message: "Login successful",
+      user: result.rows[0]
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Something went wrong"
+    });
+  }
+})
+
 app.listen(5000, ()=>{
     console.log("server is running on port 5000.")
 })

@@ -189,4 +189,17 @@
   align-items: center;
   column-gap: 15px;
   margin-bottom: 15px;
+
+  /*  alignment: */
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.welcome-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
