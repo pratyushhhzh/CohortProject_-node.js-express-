@@ -34,7 +34,11 @@ app.post("/user",async(req,res) => {
         })
     }catch(error) {
         console.error(error)
-
+        if (error.code === "23505") {
+            return res.status(409).json({
+                message: "Email or registration number already exists"
+    });
+  }
         res.status(500).json({
             message: "Something went wrong",
         })
