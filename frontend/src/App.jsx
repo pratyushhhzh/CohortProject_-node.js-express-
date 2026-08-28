@@ -8,9 +8,11 @@ function App(){
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [age, setAge] = useState("");
+  //for alert message:
+ const[message, setMessage] = useState("")
 
 
- // handle submit
+ // handle submit 
   const handleSubmit = async (event) => {
   event.preventDefault();
   const response = await fetch("http://localhost:5000/user", {
@@ -27,6 +29,14 @@ function App(){
   })
 });
 const data = await response.json();
+//409 error display through alert
+if(response.status === 409){
+  setMessage("User Registration no./Email ID already in use. Please LOGIN")
+  return;
+}
+if(response.ok){
+  setMessage("Registration successful")
+}
 //printing it out
 console.log(data);
 };
@@ -83,6 +93,7 @@ console.log(data);
 
         <br />
 
+       {message && <p>{message}</p>}
         <button type="submit">Register</button>
       </form>
     </>
